@@ -1,1 +1,12 @@
-<p>list-of-values works!</p>
+<section class="list-of-values">
+  <h3>Data</h3>
+  <input class="list-of-values__input" type="number" [formControl]="control" (keydown.enter)="addValueItem($event)">
+  <p class="list-of-values__list-title">List of values</p>
+  <ul class="value-list">
+    <li *ngFor="let value of values; let index = index" class="value-list-item">
+      <span class="value-list-item__date">{{value.date}}</span>
+      <span class="value-list-item__value"><b>{{value.value}}</b></span>
+      <button class="value-list-item__button remove-button" (click)="removeValueItem(index)">Remove</button>
+    </li>
+  </ul>
+</section>

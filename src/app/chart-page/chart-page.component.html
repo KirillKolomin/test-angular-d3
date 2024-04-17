@@ -1,2 +1,4 @@
-<app-chart class="page-element chart"></app-chart>
-<app-list-of-values class="page-element list-of-values"></app-list-of-values>
+<main class="chart-page">
+  <app-chart class="page-element chart"></app-chart>
+  <app-list-of-values [values]="values" class="page-element list-of-values" (onNewValueAdd)="addNewValue($event)" (onValueRemove)="removeValue($event)"></app-list-of-values>
+</main>

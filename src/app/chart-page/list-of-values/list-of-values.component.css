@@ -1,0 +1,38 @@
+.list-of-values {
+  padding: 0.3rem;
+}
+
+.list-of-values__input {
+  width: 100%;
+}
+
+.list-of-values__list-title {
+  margin-top: 1rem;
+}
+
+.value-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.value-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.1rem 0.3rem;
+  border: 0.1rem solid #000;
+}
+
+.value-list-item__value {
+  display: block;
+  margin-left: 0.5rem;
+}
+
+.value-list-item__button {
+  margin-left: auto;
+}
+
+.remove-button {
+  padding: 0.1rem 0.5rem;
+}
