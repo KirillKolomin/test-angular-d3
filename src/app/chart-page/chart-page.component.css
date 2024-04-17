@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  padding: 1rem;
+  gap: 1rem;
+  height: 100%;
+  width: 100%;
+}
+
+.page-element {
+  border: 0.1rem solid #000;
+}
+
+.chart {
+  flex-grow: 1;
+}
+
+.list-of-values {
+  flex-basis: 20%
+}
