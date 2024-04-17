@@ -6,11 +6,10 @@
     stroke-width="1.5"
     [attr.d]="curve"
   />
-  <g *ngIf="labels" fill="white" stroke="black" stroke-width="1">
+  <g *ngIf="labels" fill="black" stroke="black">
     <text *ngFor="let label of labels; trackBy: trackBy"
           [attr.x]="label.x"
           [attr.y]="label.y"
-          fill="none"
           text-anchor="start">{{label.value}}</text>
   </g>
 </svg>

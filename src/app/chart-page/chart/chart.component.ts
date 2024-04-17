@@ -3,13 +3,14 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
+  Input, NgZone, OnDestroy, OnInit,
   Renderer2,
   ViewChild
 } from '@angular/core';
 import {Value} from "../domain/value";
 import {extent, scaleUtc, scaleLinear, line} from "d3";
-import {JsonPipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, JsonPipe, NgForOf, NgIf} from "@angular/common";
+import {Subject, Subscription, throttleTime} from "rxjs";
 
 interface ViewLabel {
   date: Date;
@@ -18,22 +19,25 @@ interface ViewLabel {
   y: number;
 }
 
+const MILLISECONDS_PER_FRAME = 1000 / 60;
+
 @Component({
   selector: 'app-chart',
   standalone: true,
   imports: [
     NgIf,
     JsonPipe,
-    NgForOf
+    NgForOf,
+    AsyncPipe
   ],
   templateUrl: './chart.component.html',
   styleUrl: './chart.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartComponent implements AfterViewInit {
+export class ChartComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() set values(values: Value[]) {
     this._values = values;
-    this.initChart();
+    this.calculateChart();
   };
 
   @ViewChild('chart') svgElement!: ElementRef<SVGElement>;
@@ -45,24 +49,41 @@ export class ChartComponent implements AfterViewInit {
   marginBottom = 20;
   marginLeft = 20;
 
+  private observer = new ResizeObserver(entries => this.ngZone.run(() => this.onResizeObserved$.next(entries[0])));
   private size: DOMRect | null = null;
   private _values: Value[] | null = null;
+  private onResizeObservedSubscription: Subscription | null = null;
+  private onResizeObserved$ = new Subject<ResizeObserverEntry>();
 
-  constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef) {
+  constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef, private ngZone: NgZone) {
+  }
+
+  ngOnInit() {
+    this.onResizeObservedSubscription = this.onResizeObserved$.pipe(throttleTime(MILLISECONDS_PER_FRAME, undefined, {
+      leading: true,
+      trailing: true
+    })).subscribe((entry: ResizeObserverEntry) => {
+      this.size = entry.contentRect;
+
+      this.setViewBoxAttribute();
+      this.calculateChart();
+    });
   }
 
   ngAfterViewInit(): void {
-    requestAnimationFrame(() => {
-      this.getSize();
-    })
-
-    setTimeout(() => {
-      this.setViewBoxAttribute();
-      this.initChart();
-    })
+    this.startResizeObserving();
   }
 
-  initChart(): void {
+  ngOnDestroy(): void {
+    this.observer.disconnect()
+    this.onResizeObservedSubscription?.unsubscribe()
+  }
+
+  trackBy(_index: number, item: ViewLabel): string {
+    return item.date.toISOString();
+  }
+
+  private calculateChart(): void {
     if (!this.svgElement || !this.size || !this._values) {
       return;
     }
@@ -84,17 +105,13 @@ export class ChartComponent implements AfterViewInit {
     this.cdr.markForCheck();
   }
 
-  private getSize(): void {
-      this.size = this.svgElement.nativeElement.getBoundingClientRect();
+  private startResizeObserving(): void {
+    this.observer.observe(this.svgElement.nativeElement);
   }
 
   private setViewBoxAttribute(): void {
-    if(this.size) {
+    if (this.size) {
       this.renderer.setAttribute(this.svgElement.nativeElement, 'viewBox', `0, 0, ${this.size.width}, ${this.size.height}`);
     }
-  }
-
-  trackBy(_index: number, item: ViewLabel): string {
-    return item.date.toISOString();
   }
 }
