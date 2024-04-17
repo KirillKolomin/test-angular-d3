@@ -24,15 +24,15 @@ export class ChartPageComponent implements OnInit {
   }
 
   addNewValue(value: number): void {
-    this.values.push({
-      date: new Date().toISOString().slice(14, 23),
+    this.values = [...this.values, {
+      date: new Date(),
       value,
-    });
+    }];
     this.setValuesToLocalStorage();
   }
 
   removeValue(index: number): void {
-    this.values.splice(index, 1);
+    this.values = this.values.filter((_value, i) => i !== index);
     this.setValuesToLocalStorage();
   }
 
@@ -44,7 +44,11 @@ export class ChartPageComponent implements OnInit {
     const storedValues = localStorage.getItem(LOCAL_STORAGE_VALUE_KEY);
 
     if (storedValues) {
-      this.values = JSON.parse(storedValues);
+      const values = JSON.parse(storedValues);
+
+      if (Array.isArray(values)) {
+        this.values = values.map(({value, date}) => ({date: new Date(date), value}))
+      }
     }
   }
 }

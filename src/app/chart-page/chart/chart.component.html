@@ -1,1 +1,16 @@
-<p>chart works!</p>
+<svg  class="chart" color="steelblue" #chart>
+  <path
+    *ngIf="curve"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    [attr.d]="curve"
+  />
+  <g *ngIf="labels" fill="white" stroke="black" stroke-width="1">
+    <text *ngFor="let label of labels; trackBy: trackBy"
+          [attr.x]="label.x"
+          [attr.y]="label.y"
+          fill="none"
+          text-anchor="start">{{label.value}}</text>
+  </g>
+</svg>

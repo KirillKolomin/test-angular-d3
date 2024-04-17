@@ -3,6 +3,11 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 import {Value} from "../domain/value";
 
+interface ValueForView {
+  date: string;
+  value: number;
+}
+
 @Component({
   selector: 'app-list-of-values',
   standalone: true,
@@ -15,12 +20,23 @@ import {Value} from "../domain/value";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListOfValuesComponent {
-  @Input() values: Value[] = []
+  @Input() set values(values: Value[]) {
+    this._values = values.map(({date, value}) => ({
+      date: date.toISOString().slice(14, 23),
+      value
+    }))
+  }
+
+  get values(): ValueForView[] {
+    return this._values;
+  }
 
   control = new FormControl<number>(0)
 
   @Output() onNewValueAdd = new EventEmitter<number>();
   @Output() onValueRemove = new EventEmitter<number>();
+
+  private _values: ValueForView[] = [];
 
   addValueItem(event: Event) {
     event.stopPropagation();
