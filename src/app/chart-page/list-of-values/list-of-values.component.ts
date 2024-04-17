@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 import {Value} from "../domain/value";
@@ -11,7 +11,8 @@ import {Value} from "../domain/value";
     NgForOf
   ],
   templateUrl: './list-of-values.component.html',
-  styleUrl: './list-of-values.component.css'
+  styleUrl: './list-of-values.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListOfValuesComponent {
   @Input() values: Value[] = []

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ChartPageComponent} from "./chart-page/chart-page.component";
 
 @Component({
@@ -8,7 +8,8 @@ import {ChartPageComponent} from "./chart-page/chart-page.component";
   imports: [
     ChartPageComponent
   ],
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
 }

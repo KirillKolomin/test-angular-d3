@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ChartComponent} from "./chart/chart.component";
 import {ListOfValuesComponent} from "./list-of-values/list-of-values.component";
 import {Value} from "./domain/value";
@@ -13,7 +13,8 @@ const LOCAL_STORAGE_VALUE_KEY = 'values';
     ListOfValuesComponent
   ],
   templateUrl: './chart-page.component.html',
-  styleUrl: './chart-page.component.css'
+  styleUrl: './chart-page.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartPageComponent implements OnInit {
   values: Value[] = [];

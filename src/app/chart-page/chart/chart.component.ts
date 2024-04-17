@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   selector: 'app-chart',
   standalone: true,
   imports: [],
   templateUrl: './chart.component.html',
-  styleUrl: './chart.component.css'
+  styleUrl: './chart.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartComponent {
 
