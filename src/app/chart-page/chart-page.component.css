@@ -1,4 +1,9 @@
-.chart-page {
+:host {
+  display: flex;
+  height: 100%;
+}
+
+.main {
   display: flex;
   padding: 1rem;
   gap: 1rem;

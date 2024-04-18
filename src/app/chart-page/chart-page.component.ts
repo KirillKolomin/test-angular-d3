@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ChartComponent} from "./chart/chart.component";
 import {ListOfValuesComponent} from "./list-of-values/list-of-values.component";
 import {Value} from "./domain/value";
+import {ShiftingPanelComponent} from "./shifting-panel/shifting-panel.component";
 
 const LOCAL_STORAGE_VALUE_KEY = 'values';
 
@@ -10,7 +11,8 @@ const LOCAL_STORAGE_VALUE_KEY = 'values';
   standalone: true,
   imports: [
     ChartComponent,
-    ListOfValuesComponent
+    ListOfValuesComponent,
+    ShiftingPanelComponent
   ],
   templateUrl: './chart-page.component.html',
   styleUrl: './chart-page.component.css',

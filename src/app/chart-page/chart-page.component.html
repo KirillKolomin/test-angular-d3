@@ -1,4 +1,11 @@
-<main class="chart-page">
+<app-shifting-panel direction="left"></app-shifting-panel>
+
+<main class="main">
   <app-chart [values]="values" class="page-element chart"></app-chart>
-  <app-list-of-values [values]="values" class="page-element list-of-values" (onNewValueAdd)="addNewValue($event)" (onValueRemove)="removeValue($event)"></app-list-of-values>
+
+  <app-list-of-values [values]="values" class="page-element list-of-values"
+                      (onNewValueAdd)="addNewValue($event)"
+                      (onValueRemove)="removeValue($event)"></app-list-of-values>
 </main>
+
+<app-shifting-panel direction="right"></app-shifting-panel>
