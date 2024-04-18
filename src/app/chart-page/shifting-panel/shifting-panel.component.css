@@ -38,13 +38,15 @@
 }
 
 .checked.left.shifting-panel::after {
-  left: calc(100% - 4rem);
+  left: unset;
+  right: 0;
   border: 2rem solid transparent;
   border-right-color: #5050EADF;
 }
 
 .checked.right.shifting-panel::before {
-  right: calc(100% - 4rem);
+  right: unset;
+  left: 0;
   border: 2rem solid transparent;
   border-left-color: #5050EADF;
 }
